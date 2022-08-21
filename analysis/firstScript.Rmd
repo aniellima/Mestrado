@@ -1,0 +1,50 @@
+---
+title: "firstScript"
+author: "anielLima"
+date: "2022-08-21"
+output: 
+  html_document: 
+    df_print: paged
+---
+
+```{r}
+#install.packages("renv")
+#install.packages("sp")
+#install.packages("lwgeom")
+#install.packages("rgdal")
+```
+
+
+
+
+```{r}
+library("renv")
+init()#start to save the libraries I'm using
+library("tidyverse")
+library("tidylog")
+library("nycflights13")
+library("sf")
+library(raster)
+snapshot()#does a snapshot of the libraries I'using
+```
+
+```{r}
+cambodia <- raster("rawData/raster/cambodia/khm_popdenr_landscan_2011.tif")
+``` 
+```{r}
+cambodia %>% as("SpatialPixelsDataFrame") %>% 
+  as_data_frame() %>% 
+  ggplot() + 
+  geom_tile(aes(x=x,y=y,fill=khm_popdenr_landscan_2011)) +
+  theme_minimal() +
+  scale_fill_gradient(low="white",high="red",na.value="white")
+```
+
+```{r}
+cambodia %>% as("SpatialPixelsDataFrame") %>% 
+  as_data_frame() %>% 
+  ggplot() + 
+  geom_tile(aes(x=x,y=y,fill=khm_popdenr_landscan_2011)) +
+  theme_minimal() +
+  scale_fill_gradient(low="white",high="red",na.value="white", trans="log")
+```
